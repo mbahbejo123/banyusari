@@ -486,7 +486,11 @@ export async function POST(request: Request) {
     if (file.size > MAX_FILE_SIZE) return NextResponse.json({ ok: false, message: "Ukuran berkas maksimal 5 MB." }, { status: 400 });
 
     const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.load(Buffer.from(await file.arrayBuffer()));
+    const arrayBuffer = await file.arrayBuffer();
+
+    const buffer = Buffer.from(arrayBuffer);
+
+    await workbook.xlsx.load(buffer as any);
     const parsed = parseWorkbook(workbook);
     const currentHamlets = await hamletMap(supabase);
     const knownHamlets = new Set(currentHamlets.keys());
