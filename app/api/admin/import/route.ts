@@ -485,13 +485,23 @@ export async function POST(request: Request) {
     if (!file.name.toLowerCase().endsWith(".xlsx")) return NextResponse.json({ ok: false, message: "Format berkas harus .xlsx." }, { status: 400 });
     if (file.size > MAX_FILE_SIZE) return NextResponse.json({ ok: false, message: "Ukuran berkas maksimal 5 MB." }, { status: 400 });
 
-    const workbook = new ExcelJS.Workbook();
-    const arrayBuffer = await file.arrayBuffer();
+const workbook = new ExcelJS.Workbook();
 
-    const buffer = Buffer.from(arrayBuffer);
+const arrayBuffer = await file.arrayBuffer();
 
-    await workbook.xlsx.load(buffer as any);
-    const parsed = parseWorkbook(workbook);
+await workbook.xlsx.load(arrayBuffer);
+
+if (!workbook.worksheets || workbook.worksheets.length === 0) {
+  return NextResponse.json(
+    {
+      ok: false,
+      message: "File Excel tidak memiliki worksheet yang dapat dibaca."
+    },
+    { status: 400 }
+  );
+}
+
+const parsed = parseWorkbook(workbook);
     const currentHamlets = await hamletMap(supabase);
     const knownHamlets = new Set(currentHamlets.keys());
     parsed.hamlets.forEach((row) => {
