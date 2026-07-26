@@ -1,0 +1,8 @@
+import EmptyState from "@/components/EmptyState";
+import PageHero from "@/components/PageHero";
+import { getPublicSettings, getPublishedOfficials } from "@/lib/data";
+
+export default async function ProfilePage() {
+  const [settings, officials] = await Promise.all([getPublicSettings(), getPublishedOfficials()]);
+  return <main><PageHero eyebrow="Profil Desa" title={settings?.village_name || "Profil Desa"} description={settings?.welcome_message} /><section className="section"><div className="container">{!settings ? <EmptyState title="Profil desa belum dipublikasikan" /> : <div className="compact-grid"><article className="detail-panel"><h2>Sejarah Desa</h2><div className="prose">{settings.history || "Sejarah desa belum diisi."}</div></article><article className="detail-panel"><h2>Visi</h2><div className="prose">{settings.vision || "Visi desa belum diisi."}</div><h2>Misi</h2><div className="prose">{settings.mission || "Misi desa belum diisi."}</div></article></div>}</div></section><section className="section alt"><div className="container"><div className="section-heading"><p className="eyebrow">Pemerintahan</p><h2>Perangkat Desa</h2></div>{officials.length === 0 ? <EmptyState title="Data perangkat desa belum dipublikasikan" /> : <div className="card-grid">{officials.map((item) => <article className="content-card" key={item.id}>{item.photo_url ? <img src={item.photo_url} alt={item.name} /> : <div className="image-placeholder">Belum ada foto</div>}<div className="content-card-body"><span className="tag">{item.position}</span><h2>{item.name}</h2><p>{item.biography}</p></div></article>)}</div>}</div></section></main>;
+}
