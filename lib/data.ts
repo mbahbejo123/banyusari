@@ -114,3 +114,27 @@ export async function getPublishedGallery(): Promise<GalleryItem[]> {
     .order("event_date", { ascending: false });
   return (data ?? []) as GalleryItem[];
 }
+
+export async function getContentByHamlet(hamletId: string): Promise<ContentItem[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("content_items")
+    .select("*, hamlets(name)")
+    .eq("hamlet_id", hamletId)
+    .eq("is_published", true)
+    .order("section")
+    .order("display_order");
+  return (data ?? []) as ContentItem[];
+}
+
+export async function getPopulationByHamlet(hamletId: string): Promise<PopulationStatistic[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("population_statistics")
+    .select("*, hamlets(name)")
+    .eq("hamlet_id", hamletId)
+    .eq("is_published", true)
+    .order("period_year", { ascending: false })
+    .order("display_order");
+  return (data ?? []) as PopulationStatistic[];
+}

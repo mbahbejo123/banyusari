@@ -55,7 +55,7 @@ create table if not exists public.hamlets (
 create table if not exists public.population_statistics (
   id uuid primary key default gen_random_uuid(),
   hamlet_id uuid references public.hamlets(id) on delete cascade,
-  statistic_type text not null check (statistic_type in ('gender','education','marital_status')),
+  statistic_type text not null check (statistic_type in ('gender','education','marital_status','age')),
   category text not null,
   total integer not null default 0 check (total >= 0),
   period_year integer not null check (period_year between 1900 and 2200),

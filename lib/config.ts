@@ -88,6 +88,7 @@ export const populationTypeLabels = {
   gender: "Jenis Kelamin",
   education: "Jenjang Pendidikan",
   marital_status: "Status Perkawinan",
+  age: "Klasifikasi Umur",
 };
 
 export const populationCategories = {
@@ -103,4 +104,15 @@ export const populationCategories = {
     "Pascasarjana",
   ],
   marital_status: ["Belum Kawin", "Kawin", "Cerai Hidup", "Cerai Mati"],
+  age: [
+    "0-5 Tahun",
+    "6-12 Tahun",
+    "13-17 Tahun",
+    "18-25 Tahun",
+    "26-35 Tahun",
+    "36-45 Tahun",
+    "46-55 Tahun",
+    "56-65 Tahun",
+    "65+ Tahun",
+  ],
 };
