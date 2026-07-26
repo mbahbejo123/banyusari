@@ -46,6 +46,7 @@ h1, h2, h3 { line-height: 1.2; }
 .button-row, .inline-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .button { display: inline-flex; justify-content: center; align-items: center; min-height: 45px; padding: 0 18px; border: 0; border-radius: 10px; cursor: pointer; font-weight: 800; }
 .button.primary { background: var(--green-800); color: white; }
+.button.secondary { background: white; color: var(--green-800); border: 1px solid var(--green-800); }
 .button.light { background: white; color: var(--green-900); }
 .button.ghost { border: 1px solid rgba(255,255,255,.5); color: white; }
 .button.danger { background: #f8e4e4; color: var(--danger); }
@@ -153,3 +154,24 @@ dd { margin: 4px 0 0; font-weight: 700; }
   .admin-content, .admin-topbar { padding-inline: 16px; }
   .admin-heading { flex-direction: column; }
 }
+
+/* Impor Excel */
+.import-panel { display: grid; gap: 22px; }
+.import-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.import-steps > div { display: flex; align-items: center; gap: 10px; padding: 15px; border: 1px solid var(--line); border-radius: 12px; background: #f8fbf9; }
+.import-steps strong { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--green-800); color: white; }
+.import-download { padding: 18px; border-radius: 14px; background: #eef6f1; }
+.import-download p { margin: 10px 0 0; }
+.file-selected { margin: 0; padding: 12px 14px; border: 1px dashed #8eb39b; border-radius: 10px; background: #f8fbf9; }
+.import-result { padding: 18px; border-radius: 14px; border: 1px solid; }
+.import-result h3 { margin: 0 0 6px; }
+.import-result p { margin: 0 0 14px; }
+.import-result.success { border-color: #82c69a; background: #edf9f1; color: #155d30; }
+.import-result.error { border-color: #e3a3a3; background: #fff1f1; color: #8c2222; }
+.import-counts { display: flex; flex-wrap: wrap; gap: 8px; }
+.import-counts span { padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,.75); }
+.import-errors { max-height: 360px; overflow: auto; margin: 14px 0 0; padding-left: 24px; }
+.import-notes { margin-top: 22px; }
+.import-notes h2 { margin-top: 0; }
+.import-notes li { margin-bottom: 8px; }
+@media (max-width: 720px) { .import-steps { grid-template-columns: 1fr; } }

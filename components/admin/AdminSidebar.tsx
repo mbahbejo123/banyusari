@@ -7,6 +7,7 @@ const primary = [
   ["/admin/dusun", "Dusun"],
   ["/admin/penduduk", "Data Penduduk"],
   ["/admin/perangkat", "Perangkat Desa"],
+  ["/admin/impor", "Impor Data Excel"],
 ];
 
 export default function AdminSidebar() {

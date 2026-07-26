@@ -36,3 +36,7 @@ npm.cmd run dev
 ## Catatan
 
 Semua halaman mendukung kondisi database kosong. Website tidak menampilkan data fiktif apabila admin belum memublikasikan data.
+
+## Impor Excel
+
+Proyek ini menyediakan impor massal melalui `/admin/impor`. Template tersedia di `public/templates/template-import-data-desa.xlsx`. Fitur ini memakai `exceljs` untuk membaca berkas `.xlsx`, melakukan validasi, kemudian memasukkan atau memperbarui data melalui Supabase dengan sesi admin aktif.

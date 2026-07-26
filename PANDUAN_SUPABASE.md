@@ -100,3 +100,27 @@ Role yang tersedia adalah `super_admin`, `admin`, dan `editor`. Pada versi proye
 ## 9. Catatan data sensitif
 
 Simpan statistik penduduk dalam bentuk agregat. Jangan memasukkan NIK, nama penduduk, tanggal lahir, alamat rinci, atau data pribadi lainnya ke tabel statistik publik. Foto rumah tidak layak huni dan titik lokasi rumah sebaiknya hanya dipublikasikan setelah memperoleh persetujuan dan mempertimbangkan perlindungan keluarga yang bersangkutan.
+
+## 10. Impor banyak data melalui Excel
+
+Dashboard menyediakan menu **Impor Data Excel** pada alamat:
+
+```text
+http://localhost:3000/admin/impor
+```
+
+Langkah penggunaan:
+
+1. Login sebagai admin aktif.
+2. Buka **Impor Data Excel**.
+3. Klik **Unduh Template Excel**.
+4. Isi sheet yang diperlukan tanpa mengubah nama sheet atau judul kolom.
+5. Klik **Validasi Berkas**.
+6. Perbaiki baris yang dilaporkan apabila ada kesalahan.
+7. Klik **Impor ke Website** setelah validasi berhasil.
+
+Sheet yang tersedia meliputi Profil Desa, Dusun, Penduduk, Perangkat, Potensi, Infrastruktur, Usaha, Kelembagaan, Pelayanan, Perumahan, Berita, dan Galeri.
+
+Impor menggunakan prinsip pembaruan berdasarkan slug atau kunci data. Apabila data dengan kunci yang sama sudah ada, data tersebut diperbarui, bukan dibuat ganda. Sheet kosong akan dilewati.
+
+Gambar yang ditempel langsung ke Excel tidak ikut diunggah. Gunakan kolom URL gambar publik atau impor data terlebih dahulu, kemudian unggah gambar melalui formulir edit pada dashboard.

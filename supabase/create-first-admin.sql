@@ -3,7 +3,7 @@
 insert into public.admin_profiles (id, full_name, role, is_active)
 select id, 'Administrator Desa', 'super_admin', true
 from auth.users
-where email = 'davidivanov820@gmail.com'
+where email = 'GANTI_DENGAN_EMAIL_ADMIN'
 on conflict (id) do update
 set full_name = excluded.full_name,
     role = excluded.role,
