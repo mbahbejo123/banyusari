@@ -5,13 +5,14 @@ import { sectionConfig } from "@/lib/config";
 import { getPublishedContent } from "@/lib/data";
 import type { ContentSection } from "@/lib/types";
 
-export default async function PublicContentList({ section }: { section: ContentSection }) {
+export default async function PublicContentList({ section, category }: { section: ContentSection; category?: string }) {
   const config = sectionConfig[section];
-  const items = await getPublishedContent(section);
+  let items = await getPublishedContent(section);
+  if (category) items = items.filter((i) => i.category === category);
 
   return (
     <main>
-      <PageHero eyebrow="Informasi Desa" title={config.label} description={config.description} />
+      <PageHero eyebrow="Informasi Desa" title={category || config.label} description={config.description} />
       <section className="section">
         <div className="container">
           {items.length === 0 ? (

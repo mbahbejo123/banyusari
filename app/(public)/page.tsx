@@ -1,6 +1,20 @@
 import Link from "next/link";
 import EmptyState from "@/components/EmptyState";
+import NewsTicker from "@/components/NewsTicker";
+import TypedHero from "@/components/TypedHero";
 import { getPublicSettings, getPublishedContent, getPublishedHamlets, getPublishedPopulation, getPublishedPosts } from "@/lib/data";
+import { IconMap, IconPhoto, IconClipboardList, IconBuildingStore, IconNews, IconBuildingBridge, IconLeaf, IconPhone } from "@tabler/icons-react";
+
+const shortcuts = [
+  { href: "/dusun", icon: IconMap, label: "Peta Dusun" },
+  { href: "/galeri", icon: IconPhoto, label: "Galeri" },
+  { href: "/pelayanan", icon: IconClipboardList, label: "Pelayanan" },
+  { href: "/usaha", icon: IconBuildingStore, label: "UMKM" },
+  { href: "/berita", icon: IconNews, label: "Berita" },
+  { href: "/infrastruktur", icon: IconBuildingBridge, label: "Infrastruktur" },
+  { href: "/potensi", icon: IconLeaf, label: "Potensi" },
+  { href: "/kontak", icon: IconPhone, label: "Kontak" },
+];
 
 export default async function HomePage() {
   const [settings, hamlets, population, potentials, infrastructures, posts] = await Promise.all([
@@ -23,12 +37,34 @@ export default async function HomePage() {
   return (
     <main>
       <section className={`hero ${settings?.hero_image_url ? "with-image" : ""}`} style={heroStyle}>
-        <div className="hero-overlay">
-          <div className="container hero-content">
+          <div className="hero-content hero-center">
+            {settings?.logo_url ? (
+              <img className="hero-logo" src={settings.logo_url} alt={`Logo ${settings.village_name}`} />
+            ) : null}
             <p className="eyebrow light">Website Resmi Pemerintah Desa</p>
-            <h1>{settings?.village_name || "Website Desa Belum Dikonfigurasi"}</h1>
+            <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold"><TypedHero fallback={settings?.village_name || "Website Desa Belum Dikonfigurasi"} /></p>
+            {settings?.district ? (
+              <p className="hero-tagline">Kecamatan {settings.district}, {settings.regency}</p>
+            ) : null}
             <p className="hero-copy">{settings?.welcome_message || "Admin belum memublikasikan identitas dan sambutan desa."}</p>
-            <div className="button-row"><Link className="button light" href="/profil">Lihat Profil</Link><Link className="button ghost" href="/pelayanan">Pelayanan Desa</Link></div>
+            <div className="button-row">
+              <Link className="button light" href="/profil">Lihat Profil</Link>
+              <Link className="button ghost" href="/pelayanan">Pelayanan Desa</Link>
+            </div>
+        </div>
+        <div className="shortcut-bar">
+          <div className="container">
+            <div className="shortcut-grid">
+              {shortcuts.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <Link key={s.href} href={s.href} className="shortcut-item">
+                    <Icon size={28} className="shortcut-icon" />
+                    <span className="shortcut-label">{s.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -38,7 +74,10 @@ export default async function HomePage() {
         <div className="stat-card"><strong>{female || "0"}</strong><span>Perempuan</span></div>
         <div className="stat-card"><strong>{hamlets.length}</strong><span>Dusun Dipublikasikan</span></div>
       </div>
-      <section className="section">
+      <section className="section mt-5" style={{ paddingTop: 0 }}>
+        <NewsTicker items={posts.map(p => ({ text: p.title, href: `/berita/${p.slug}` }))} />
+      </section>
+      <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="section-heading"><p className="eyebrow">Potensi Desa</p><h2>Potensi yang dapat dikembangkan</h2></div>
           {potentials.length === 0 ? <EmptyState title="Belum ada potensi yang dipublikasikan" /> : <div className="card-grid">{potentials.slice(0, 3).map((item) => <article className="content-card" key={item.id}>{item.cover_image_url ? <img src={item.cover_image_url} alt={item.title} /> : <div className="image-placeholder">Belum ada gambar</div>}<div className="content-card-body"><span className="tag">{item.category}</span><h2>{item.title}</h2><p>{item.summary}</p><Link className="text-link" href={`/potensi/${item.slug}`}>Lihat detail →</Link></div></article>)}</div>}

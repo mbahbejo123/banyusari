@@ -1,2 +1,6 @@
 import PublicContentList from "@/components/PublicContentList";
-export default function Page() { return <PublicContentList section="institution" />; }
+
+export default async function Page({ searchParams }: { searchParams: Promise<{ kategori?: string }> }) {
+  const { kategori } = await searchParams;
+  return <PublicContentList section="institution" category={kategori} />;
+}

@@ -1,21 +1,9 @@
 import Link from "next/link";
 import { getPublicSettings } from "@/lib/data";
-
-const navigation = [
-  ["/", "Beranda"],
-  ["/profil", "Profil"],
-  ["/dusun", "Dusun"],
-  ["/penduduk", "Penduduk"],
-  ["/potensi", "Potensi"],
-  ["/infrastruktur", "Infrastruktur"],
-  ["/usaha", "BUMDes dan UMKM"],
-  ["/kelembagaan", "Kelembagaan"],
-  ["/pelayanan", "Pelayanan"],
-  ["/perumahan", "Perumahan"],
-  ["/berita", "Berita"],
-  ["/galeri", "Galeri"],
-  ["/kontak", "Kontak"],
-];
+import { DesktopNav, MobileNav } from "@/components/NavLinks";
+import SearchBar from "@/components/SearchBar";
+import LoginModal from "@/components/LoginModal";
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 export default async function SiteHeader() {
   const settings = await getPublicSettings();
@@ -23,32 +11,18 @@ export default async function SiteHeader() {
   const subtitle = settings?.district || "Website Resmi Pemerintah Desa";
 
   return (
-    <header className="site-header">
-      <div className="container header-inner">
-        <Link href="/" className="brand">
-          {settings?.logo_url ? (
-            <img src={settings.logo_url} alt={`Logo ${name}`} />
-          ) : (
-            <span className="brand-placeholder">DS</span>
-          )}
-          <span>
-            <strong>{name}</strong>
-            <small>{subtitle}</small>
-          </span>
-        </Link>
+    <header className="site-header w-full">
+      <div className="header-inner mx-auto w-full lg:w-max">
+        {/* <div className="header-tools">
+          <SearchBar />
+          <DarkModeToggle />
+          <LoginModal />
+        </div> */}
         <details className="nav-details">
           <summary>Menu</summary>
-          <nav>
-            {navigation.map(([href, label]) => (
-              <Link key={href} href={href}>{label}</Link>
-            ))}
-          </nav>
+          <MobileNav />
         </details>
-        <nav className="desktop-nav">
-          {navigation.map(([href, label]) => (
-            <Link key={href} href={href}>{label}</Link>
-          ))}
-        </nav>
+        <DesktopNav />
       </div>
     </header>
   );
