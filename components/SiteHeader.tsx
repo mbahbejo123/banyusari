@@ -19,7 +19,7 @@ export default async function SiteHeader() {
           <LoginModal />
         </div> */}
         <details className="nav-details">
-          <summary>Menu</summary>
+          <summary className="ml-2">Menu</summary>
           <MobileNav />
         </details>
         <DesktopNav />

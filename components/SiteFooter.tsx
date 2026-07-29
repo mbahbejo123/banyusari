@@ -12,32 +12,44 @@ export default async function SiteFooter() {
       <div className="container footer-grid">
         <div>
           <h2>{settings?.village_name || "Portal Desa"}</h2>
-          <p>{settings?.address || "Alamat kantor desa belum diisi oleh admin."}</p>
           <p>
-            {[settings?.district, settings?.regency, settings?.province]
+            <span>
+            {settings?.address || "Alamat kantor desa belum diisi oleh admin."}
+            </span>{", "}
+            <span>
+            {[settings?.district, settings?.regency, settings?.province, settings?.postal_code]
               .filter(Boolean)
               .join(", ") || "Wilayah administratif belum diisi."}
+            </span>
           </p>
           {settings?.facebook_url || settings?.instagram_url || settings?.youtube_url || settings?.phone ? (
             <div className="footer-sosmed">
               {settings.facebook_url ? (
                 <a href={settings.facebook_url} target="_blank" rel="noreferrer" className="sosmed-link" title="Facebook">
-                  <IconBrandFacebook size={20} />
+                  <div className="flex justify-center items-center w-full h-full">
+                    <IconBrandFacebook size={20}/>
+                  </div>
                 </a>
               ) : null}
               {settings.instagram_url ? (
                 <a href={settings.instagram_url} target="_blank" rel="noreferrer" className="sosmed-link" title="Instagram">
-                  <IconBrandInstagram size={20} />
+                  <div className="flex justify-center items-center w-full h-full">
+                    <IconBrandInstagram size={20} />
+                  </div>
                 </a>
               ) : null}
               {settings.youtube_url ? (
                 <a href={settings.youtube_url} target="_blank" rel="noreferrer" className="sosmed-link" title="YouTube">
-                  <IconBrandYoutube size={20} />
+                  <div className="flex justify-center items-center w-full h-full">
+                    <IconBrandYoutube size={20} />
+                  </div>
                 </a>
               ) : null}
               {settings?.phone ? (
                 <a href={`https://wa.me/${settings.phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" className="sosmed-link" title="WhatsApp">
-                  <IconBrandWhatsapp size={20} />
+                  <div className="flex justify-center items-center w-full h-full">
+                    <IconBrandWhatsapp size={20} />
+                  </div>
                 </a>
               ) : null}
             </div>

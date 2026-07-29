@@ -42,11 +42,11 @@ export default async function HomePage() {
               <img className="hero-logo" src={settings.logo_url} alt={`Logo ${settings.village_name}`} />
             ) : null}
             <p className="eyebrow light">Website Resmi Pemerintah Desa</p>
-            <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold"><TypedHero fallback={settings?.village_name || "Website Desa Belum Dikonfigurasi"} /></p>
+            <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold my-1"><TypedHero fallback={settings?.village_name || "Website Desa Belum Dikonfigurasi"} /></p>
             {settings?.district ? (
               <p className="hero-tagline">Kecamatan {settings.district}, {settings.regency}</p>
             ) : null}
-            <p className="hero-copy">{settings?.welcome_message || "Admin belum memublikasikan identitas dan sambutan desa."}</p>
+            <p className="hero-copy mb-2">{settings?.welcome_message || "Admin belum memublikasikan identitas dan sambutan desa."}</p>
             <div className="button-row">
               <Link className="button light" href="/profil">Lihat Profil</Link>
               <Link className="button ghost" href="/pelayanan">Pelayanan Desa</Link>
@@ -68,11 +68,11 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <div className="container stats-grid">
+      <div className="container stats-grid text-center lg:text-left">
         <div className="stat-card"><strong>{total || "0"}</strong><span>Jumlah Penduduk {latestYear ? `(${latestYear})` : ""}</span></div>
         <div className="stat-card"><strong>{male || "0"}</strong><span>Laki-laki</span></div>
         <div className="stat-card"><strong>{female || "0"}</strong><span>Perempuan</span></div>
-        <div className="stat-card"><strong>{hamlets.length}</strong><span>Dusun Dipublikasikan</span></div>
+        <div className="stat-card"><strong>{hamlets.length}</strong><span>Dusun</span></div>
       </div>
       <section className="section mt-5" style={{ paddingTop: 0 }}>
         <NewsTicker items={posts.map(p => ({ text: p.title, href: `/berita/${p.slug}` }))} />

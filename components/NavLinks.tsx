@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import {
   IconHome, IconUser, IconLeaf, IconBuildingBridge, IconBuildingStore,
@@ -55,19 +55,17 @@ const navigation: NavItem[] = [
   {
     label: "Usaha & Lembaga", icon: <IconBuildingStore size={iconSize} />,
     children: [
-      { href: "/usaha?kategori=BUMDes", label: "BUMDes" },
-      { href: "/usaha?kategori=UMKM", label: "UMKM" },
-      { href: "/usaha?kategori=Koperasi", label: "Koperasi" },
+      { href: "/kelembagaan?kategori=Kelompok%20Tani", label: "Kelompok Tani" },
       { href: "/usaha?kategori=Kelompok%20Usaha", label: "Kelompok Usaha" },
       { href: "/usaha?kategori=Usaha%20Binaan%20PKK", label: "Usaha Binaan PKK" },
-      { href: "/kelembagaan?kategori=PKK", label: "PKK" },
-      { href: "/kelembagaan?kategori=BPD", label: "BPD" },
-      { href: "/kelembagaan?kategori=Karang%20Taruna", label: "Karang Taruna" },
-      { href: "/kelembagaan?kategori=LPM", label: "LPM" },
+      { href: "/usaha?kategori=Koperasi", label: "Koperasi" },
+      { href: "/usaha?kategori=UMKM", label: "UMKM" },
+      { href: "/usaha?kategori=BUMDes", label: "BUMDes" },
       { href: "/kelembagaan?kategori=RT%2FRW", label: "RT/RW" },
-      { href: "/kelembagaan?kategori=Kelompok%20Tani", label: "Kelompok Tani" },
-      { href: "/kelembagaan?kategori=KWT", label: "KWT" },
-      { href: "/kelembagaan?kategori=Linmas", label: "Linmas" },
+      { href: "/kelembagaan?kategori=Kepala%20Dusun", label: "Kepala Dusun" },
+      { href: "/kelembagaan?kategori=PKK", label: "PKK" },
+      { href: "/kelembagaan?kategori=Karang%20Taruna", label: "Karang Taruna" },
+      { href: "/kelembagaan?kategori=BPD", label: "BPD" },
     ],
   },
   {
@@ -99,22 +97,27 @@ const navigation: NavItem[] = [
   { href: "/kontak", label: "Kontak", icon: <IconPhone size={iconSize} /> },
 ];
 
-function isActive(pathname: string, item: NavItem): boolean {
-  if (item.href && pathname === item.href) return true;
-  if (item.children) return item.children.some((c) => pathname === c.href.split("?")[0]);
-  return false;
+function childActive(pathname: string, kategori: string | null, href: string): boolean {
+  const [childPath, qs] = href.split("?");
+  if (pathname !== childPath) return false;
+  if (!qs) return true;
+  return new URLSearchParams(qs).get("kategori") === kategori;
 }
 
-function childActive(pathname: string, href: string): boolean {
-  return pathname === href.split("?")[0];
+function isActive(pathname: string, kategori: string | null, item: NavItem): boolean {
+  if (item.href && pathname === item.href) return true;
+  if (item.children) return item.children.some((c) => childActive(pathname, kategori, c.href));
+  return false;
 }
 
 export function DesktopNav() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const kategori = searchParams.get("kategori");
   return (
     <nav className="desktop-nav">
       {navigation.map((item, i) => {
-        const active = isActive(pathname, item);
+        const active = isActive(pathname, kategori, item);
         if (item.children) {
           return (
             <div key={i} className={`nav-parent${active ? " active" : ""}`}>
@@ -125,7 +128,7 @@ export function DesktopNav() {
               </span>
               <div className="nav-dropdown">
                 {item.children.map((child, j) => (
-                  <Link key={j} href={child.href} className={`nav-child${childActive(pathname, child.href) ? " active" : ""}`}>
+                  <Link key={j} href={child.href} className={`nav-child${childActive(pathname, kategori, child.href) ? " active" : ""}`} style={{ fontFamily: "var(--font-inter)" }}>
                     {child.label}
                   </Link>
                 ))}
@@ -146,15 +149,17 @@ export function DesktopNav() {
 
 export function MobileNav() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const kategori = searchParams.get("kategori");
   return (
     <nav className="mobile-nav-drawer">
       {navigation.map((item, i) => {
-        const active = isActive(pathname, item);
+        const active = isActive(pathname, kategori, item);
         if (item.children) {
-          return <MobileGroup key={i} item={item} pathname={pathname} active={active} />;
+          return <MobileGroup key={i} item={item} pathname={pathname} kategori={kategori} active={active} />;
         }
         return (
-          <Link key={i} href={item.href!} className={`mobile-link${active ? " active" : ""}`}>
+          <Link key={i} href={item.href!} className={`mobile-link${active ? " active" : ""}`} style={{ fontFamily: "var(--font-inter)" }}>
             <span className="nav-icon">{item.icon}</span>
             {item.label}
           </Link>
@@ -164,7 +169,7 @@ export function MobileNav() {
   );
 }
 
-function MobileGroup({ item, pathname, active }: { item: NavItem; pathname: string; active: boolean }) {
+function MobileGroup({ item, pathname, kategori, active }: { item: NavItem; pathname: string; kategori: string | null; active: boolean }) {
   const [open, setOpen] = useState(active);
   return (
     <div className={`mobile-group${open ? " open" : ""}`}>
@@ -176,7 +181,7 @@ function MobileGroup({ item, pathname, active }: { item: NavItem; pathname: stri
       {open && (
         <div className="mobile-group-children">
           {item.children!.map((child, j) => (
-            <Link key={j} href={child.href} className={`mobile-link child${childActive(pathname, child.href) ? " active" : ""}`}>
+            <Link key={j} href={child.href} className={`mobile-link child${childActive(pathname, kategori, child.href) ? " active" : ""}`}>
               {child.label}
             </Link>
           ))}
