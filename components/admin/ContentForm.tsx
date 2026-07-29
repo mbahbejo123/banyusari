@@ -40,18 +40,17 @@ export default function ContentForm({
 
       <div className="field">
         <label>Kategori</label>
-        <input
+        <select
           name="category"
           required
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          list={`categories-${section}`}
-        />
-        <datalist id={`categories-${section}`}>
+        >
+          <option value="">Pilih kategori</option>
           {config.categories.map((cat) => (
-            <option value={cat} key={cat} />
+            <option value={cat} key={cat}>{cat}</option>
           ))}
-        </datalist>
+        </select>
       </div>
 
       <div className="field">

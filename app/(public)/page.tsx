@@ -92,7 +92,7 @@ export default async function HomePage() {
       <section className="section">
         <div className="container">
           <div className="section-heading"><p className="eyebrow">Berita</p><h2>Informasi terbaru dari desa</h2></div>
-          {posts.length === 0 ? <EmptyState title="Belum ada berita yang diterbitkan" /> : <div className="card-grid">{posts.map((post) => <article className="simple-card" key={post.id}><span className="tag">{post.post_type}</span><h2>{post.title}</h2><p>{post.excerpt}</p><Link className="text-link" href={`/berita/${post.slug}`}>Baca berita →</Link></article>)}</div>}
+          {posts.length === 0 ? <EmptyState title="Belum ada berita yang diterbitkan" /> : <div className="card-grid">{posts.map((post) => <article className="content-card" key={post.id}>{post.cover_image_url ? <img src={post.cover_image_url} alt={post.title} /> : <div className="image-placeholder">Belum ada gambar</div>}<div className="content-card-body"><span className="tag">{post.post_type}</span><h2>{post.title}</h2><p>{post.excerpt}</p><Link className="text-link" href={`/berita/${post.slug}`}>Baca berita →</Link></div></article>)}</div>}
         </div>
       </section>
     </main>
