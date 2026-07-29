@@ -5,7 +5,7 @@ import Link from "next/link";
 import ImageUploadField from "@/components/admin/ImageUploadField";
 import ImageGalleryField from "@/components/admin/ImageGalleryField";
 import { saveContent } from "@/app/admin/(dashboard)/actions";
-import { sectionConfig } from "@/lib/config";
+import { contentFieldRules, sectionConfig } from "@/lib/config";
 import type { ContentItem, ContentSection, Hamlet } from "@/lib/types";
 
 export default function ContentForm({
@@ -21,15 +21,8 @@ export default function ContentForm({
   const action = saveContent.bind(null, section);
   const meta = item?.metadata || {};
   const [category, setCategory] = useState(item?.category || "");
-  const isInfrastructure = section === "infrastructure";
-  const isHousing = section === "housing";
-  const isInstitution = section === "institution";
-  const isService = section === "service";
-  const showMeasurements = isInfrastructure && (category === "Jalan" || category === "Irigasi");
-  const showRtlhGallery = isHousing && category === "Rumah Tidak Layak Huni";
-  const showPkkGallery = isInstitution && category === "PKK";
-  const showPosyanduGallery = isService && category.startsWith("Posyandu");
-  const showStatusAktif = (isInstitution && category === "PKK") || (isService && category.startsWith("Posyandu"));
+  const ruleKey = `${section}:${category}`;
+  const rules = contentFieldRules[ruleKey as keyof typeof contentFieldRules] || {};
 
   return (
     <form className="admin-panel form-grid" action={action}>
@@ -100,30 +93,12 @@ export default function ContentForm({
         label="Gambar Utama"
       />
 
-      {showRtlhGallery ? (
+      {rules.galleryLabel ? (
         <ImageGalleryField
           name="metadata_images"
           defaultValue={Array.isArray(meta.images) ? (meta.images as string[]) : null}
-          folder={`${section}/rtlh`}
-          label="Foto Rumah"
-        />
-      ) : null}
-
-      {showPkkGallery ? (
-        <ImageGalleryField
-          name="metadata_images"
-          defaultValue={Array.isArray(meta.images) ? (meta.images as string[]) : null}
-          folder={`${section}/pkk`}
-          label="Foto Kegiatan PKK"
-        />
-      ) : null}
-
-      {showPosyanduGallery ? (
-        <ImageGalleryField
-          name="metadata_images"
-          defaultValue={Array.isArray(meta.images) ? (meta.images as string[]) : null}
-          folder={`${section}/posyandu`}
-          label="Foto Kegiatan Posyandu"
+          folder={`${section}/${rules.galleryFolder || "gallery"}`}
+          label={rules.galleryLabel}
         />
       ) : null}
 
@@ -136,7 +111,7 @@ export default function ContentForm({
         />
       </div>
 
-      {showStatusAktif ? (
+      {rules.statusAktif ? (
         <div className="field">
           <label>Status Pengurus</label>
           <select name="status_aktif" defaultValue={String(meta.status_aktif || "")}>
@@ -155,7 +130,7 @@ export default function ContentForm({
         />
       </div>
 
-      {showMeasurements ? (
+      {rules.measurements ? (
         <>
           <div className="field">
             <label>Total Panjang (meter)</label>

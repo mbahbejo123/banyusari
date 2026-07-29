@@ -1,5 +1,12 @@
 import type { ContentSection } from "@/lib/types";
 
+export type ContentFieldRule = {
+  measurements?: true;
+  galleryLabel?: string;
+  galleryFolder?: string;
+  statusAktif?: true;
+};
+
 export const sectionConfig: Record<
   ContentSection,
   {
@@ -39,7 +46,6 @@ export const sectionConfig: Record<
       "Kesehatan",
       "Tempat Ibadah",
       "Penerangan Jalan",
-      "Telekomunikasi",
     ],
   },
   business: {
@@ -52,7 +58,7 @@ export const sectionConfig: Record<
     label: "Kelembagaan",
     publicPath: "/kelembagaan",
     description: "PKK, BPD, Karang Taruna, LPM, kelompok tani, dan kelembagaan lain.",
-    categories: ["PKK", "BPD", "Karang Taruna", "LPM", "RT/RW", "Kelompok Tani", "KWT", "Linmas"],
+    categories: ["PKK", "BPD", "Karang Taruna", "LPM", "RT/RW", "Kelompok Tani", "KWT", "Linmas", "Kepala Dusun"],
   },
   service: {
     label: "Pelayanan",
@@ -83,6 +89,34 @@ export const sectionConfig: Record<
     ],
   },
 };
+
+type FieldRuleKey = {
+  [S in keyof typeof sectionConfig]: `${S & string}:${(typeof sectionConfig)[S]["categories"][number]}`;
+}[keyof typeof sectionConfig];
+
+export const contentFieldRules: Partial<Record<FieldRuleKey, ContentFieldRule>> = {
+  "infrastructure:Jalan": { measurements: true },
+  "infrastructure:Irigasi": { measurements: true },
+  "housing:Rumah Tidak Layak Huni": { galleryLabel: "Foto Rumah", galleryFolder: "rtlh" },
+  "institution:PKK": { galleryLabel: "Foto Kegiatan PKK", galleryFolder: "pkk", statusAktif: true },
+  "service:Posyandu Balita": { galleryLabel: "Foto Kegiatan Posyandu", galleryFolder: "posyandu", statusAktif: true },
+  "service:Posyandu Lansia": { galleryLabel: "Foto Kegiatan Posyandu", galleryFolder: "posyandu", statusAktif: true },
+  "service:Posyandu Remaja": { galleryLabel: "Foto Kegiatan Posyandu", galleryFolder: "posyandu", statusAktif: true },
+};
+
+export const usahaLembagaNav: Array<{ section: "business" | "institution"; category: string; label?: string }> = [
+  { section: "institution", category: "Kelompok Tani" },
+  { section: "business", category: "Kelompok Usaha" },
+  { section: "business", category: "Usaha Binaan PKK" },
+  { section: "business", category: "Koperasi" },
+  { section: "business", category: "UMKM" },
+  { section: "business", category: "BUMDes" },
+  { section: "institution", category: "RT/RW" },
+  { section: "institution", category: "Kepala Dusun" },
+  { section: "institution", category: "PKK", label: "PPK" },
+  { section: "institution", category: "Karang Taruna" },
+  { section: "institution", category: "BPD" },
+];
 
 export const populationTypeLabels = {
   gender: "Jenis Kelamin",

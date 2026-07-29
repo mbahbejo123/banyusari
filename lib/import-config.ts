@@ -22,6 +22,7 @@ export const allowedPopulationTypes = [
   "gender",
   "education",
   "marital_status",
+  "age",
 ] as const;
 
 export const allowedPostStatuses = ["draft", "published", "archived"] as const;

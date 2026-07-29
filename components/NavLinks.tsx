@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { sectionConfig, usahaLembagaNav } from "@/lib/config";
 import {
   IconHome, IconUser, IconLeaf, IconBuildingBridge, IconBuildingStore,
   IconClipboardList, IconHome2, IconNews, IconPhoto, IconPhone, IconChevronDown,
@@ -25,72 +26,38 @@ const navigation: NavItem[] = [
   },
   {
     label: "Potensi", icon: <IconLeaf size={iconSize} />,
-    children: [
-      { href: "/potensi?kategori=Mata%20Air", label: "Mata Air" },
-      { href: "/potensi?kategori=Persawahan", label: "Persawahan" },
-      { href: "/potensi?kategori=Pertanian", label: "Pertanian" },
-      { href: "/potensi?kategori=Perkebunan", label: "Perkebunan" },
-      { href: "/potensi?kategori=Peternakan", label: "Peternakan" },
-      { href: "/potensi?kategori=Pariwisata", label: "Pariwisata" },
-      { href: "/potensi?kategori=Produk%20Unggulan", label: "Produk Unggulan" },
-      { href: "/potensi?kategori=Sumber%20Daya%20Alam", label: "Sumber Daya Alam" },
-    ],
+    children: sectionConfig.potential.categories.map((cat) => ({
+      href: `/potensi?kategori=${encodeURIComponent(cat)}`,
+      label: cat,
+    })),
   },
   {
     label: "Infrastruktur", icon: <IconBuildingBridge size={iconSize} />,
-    children: [
-      { href: "/infrastruktur?kategori=Jalan", label: "Jalan" },
-      { href: "/infrastruktur?kategori=Jembatan", label: "Jembatan" },
-      { href: "/infrastruktur?kategori=Irigasi", label: "Irigasi" },
-      { href: "/infrastruktur?kategori=Drainase", label: "Drainase" },
-      { href: "/infrastruktur?kategori=Air%20Bersih", label: "Air Bersih" },
-      { href: "/infrastruktur?kategori=Bangunan%20Publik", label: "Bangunan Publik" },
-      { href: "/infrastruktur?kategori=Pendidikan", label: "Pendidikan" },
-      { href: "/infrastruktur?kategori=Kesehatan", label: "Kesehatan" },
-      { href: "/infrastruktur?kategori=Tempat%20Ibadah", label: "Tempat Ibadah" },
-      { href: "/infrastruktur?kategori=Penerangan%20Jalan", label: "Penerangan Jalan" },
-      { href: "/infrastruktur?kategori=Telekomunikasi", label: "Telekomunikasi" },
-    ],
+    children: sectionConfig.infrastructure.categories.map((cat) => ({
+      href: `/infrastruktur?kategori=${encodeURIComponent(cat)}`,
+      label: cat,
+    })),
   },
   {
     label: "Usaha & Lembaga", icon: <IconBuildingStore size={iconSize} />,
-    children: [
-      { href: "/kelembagaan?kategori=Kelompok%20Tani", label: "Kelompok Tani" },
-      { href: "/usaha?kategori=Kelompok%20Usaha", label: "Kelompok Usaha" },
-      { href: "/usaha?kategori=Usaha%20Binaan%20PKK", label: "Usaha Binaan PKK" },
-      { href: "/usaha?kategori=Koperasi", label: "Koperasi" },
-      { href: "/usaha?kategori=UMKM", label: "UMKM" },
-      { href: "/usaha?kategori=BUMDes", label: "BUMDes" },
-      { href: "/kelembagaan?kategori=RT%2FRW", label: "RT/RW" },
-      { href: "/kelembagaan?kategori=Kepala%20Dusun", label: "Kepala Dusun" },
-      { href: "/kelembagaan?kategori=PKK", label: "PKK" },
-      { href: "/kelembagaan?kategori=Karang%20Taruna", label: "Karang Taruna" },
-      { href: "/kelembagaan?kategori=BPD", label: "BPD" },
-    ],
+    children: usahaLembagaNav.map((item) => ({
+      href: `${sectionConfig[item.section].publicPath}?kategori=${encodeURIComponent(item.category)}`,
+      label: item.label || item.category,
+    })),
   },
   {
     label: "Pelayanan", icon: <IconClipboardList size={iconSize} />,
-    children: [
-      { href: "/pelayanan?kategori=Posyandu%20Balita", label: "Posyandu Balita" },
-      { href: "/pelayanan?kategori=Posyandu%20Lansia", label: "Posyandu Lansia" },
-      { href: "/pelayanan?kategori=Posyandu%20Remaja", label: "Posyandu Remaja" },
-      { href: "/pelayanan?kategori=Poskesdes", label: "Poskesdes" },
-      { href: "/pelayanan?kategori=Puskesmas%20Pembantu", label: "Puskesmas Pembantu" },
-      { href: "/pelayanan?kategori=Administrasi%20Desa", label: "Administrasi Desa" },
-      { href: "/pelayanan?kategori=Pelayanan%20Sosial", label: "Pelayanan Sosial" },
-    ],
+    children: sectionConfig.service.categories.map((cat) => ({
+      href: `/pelayanan?kategori=${encodeURIComponent(cat)}`,
+      label: cat,
+    })),
   },
   {
     label: "Perumahan", icon: <IconHome2 size={iconSize} />,
-    children: [
-      { href: "/perumahan?kategori=Rumah%20Permanen", label: "Rumah Permanen" },
-      { href: "/perumahan?kategori=Rumah%20Semi%20Permanen", label: "Rumah Semi Permanen" },
-      { href: "/perumahan?kategori=Rumah%20Tidak%20Permanen", label: "Rumah Tidak Permanen" },
-      { href: "/perumahan?kategori=Rumah%20Layak%20Huni", label: "Rumah Layak Huni" },
-      { href: "/perumahan?kategori=Rumah%20Tidak%20Layak%20Huni", label: "Rumah Tidak Layak Huni" },
-      { href: "/perumahan?kategori=Sanitasi", label: "Sanitasi" },
-      { href: "/perumahan?kategori=Akses%20Air%20Bersih", label: "Akses Air Bersih" },
-    ],
+    children: sectionConfig.housing.categories.map((cat) => ({
+      href: `/perumahan?kategori=${encodeURIComponent(cat)}`,
+      label: cat,
+    })),
   },
   { href: "/berita", label: "Berita", icon: <IconNews size={iconSize} /> },
   { href: "/galeri", label: "Galeri", icon: <IconPhoto size={iconSize} /> },

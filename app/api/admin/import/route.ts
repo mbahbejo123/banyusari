@@ -170,7 +170,7 @@ function validate(data: ImportData) {
     const total = numberOrNull(row.jumlah);
     const year = numberOrNull(row.tahun);
     if (!allowedPopulationTypes.includes(type as (typeof allowedPopulationTypes)[number])) {
-      errors.push(`Penduduk baris ${row.__row}: jenis statistik harus gender, education, atau marital_status.`);
+      errors.push(`Penduduk baris ${row.__row}: jenis statistik harus gender, education, marital_status, atau age.`);
     }
     if (total === null || total < 0) errors.push(`Penduduk baris ${row.__row}: jumlah harus berupa angka nol atau lebih.`);
     if (year === null || year < 1900 || year > 2200) errors.push(`Penduduk baris ${row.__row}: tahun tidak valid.`);
@@ -405,6 +405,11 @@ async function importContent(supabase: SupabaseClient, rows: ImportData["content
         manager_name: optional(row.pengelola),
         phone: optional(row.telepon),
         schedule: optional(row.jadwal),
+        status_aktif: optional(row["status aktif"]),
+        panjang_meter: numberOrNull(row["panjang meter"]),
+        panjang_permanen_meter: numberOrNull(row["panjang permanen meter"]),
+        panjang_belum_permanen_meter: numberOrNull(row["panjang belum permanen meter"]),
+        lebar_meter: numberOrNull(row["lebar meter"]),
       },
       display_order: numberOrNull(row.urutan) ?? 0,
       is_featured: booleanValue(row.unggulan),

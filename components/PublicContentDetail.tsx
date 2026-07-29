@@ -1,22 +1,11 @@
 import { notFound } from "next/navigation";
 import PageHero from "@/components/PageHero";
-import { sectionConfig } from "@/lib/config";
+import { contentFieldRules, sectionConfig } from "@/lib/config";
 import { getPublishedContentBySlug } from "@/lib/data";
 import type { ContentSection } from "@/lib/types";
 
 function humanize(key: string) {
   return key.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-function isGalleryItem(section: string, category: string) {
-  return section === "housing" && category === "Rumah Tidak Layak Huni";
-}
-
-function hasMeasurements(section: string, category: string) {
-  return (
-    section === "infrastructure" &&
-    (category === "Jalan" || category === "Irigasi")
-  );
 }
 
 export default async function PublicContentDetail({
@@ -29,6 +18,7 @@ export default async function PublicContentDetail({
   const item = await getPublishedContentBySlug(section, slug);
   if (!item) notFound();
   const config = sectionConfig[section];
+  const rules = contentFieldRules[`${section}:${item.category}` as keyof typeof contentFieldRules] || {};
   const images: string[] = Array.isArray(item.metadata?.images)
     ? item.metadata.images
     : [];
@@ -59,9 +49,9 @@ export default async function PublicContentDetail({
               {item.description || "Deskripsi lengkap belum diisi oleh admin."}
             </div>
 
-            {images.length > 0 && isGalleryItem(section, item.category) ? (
+            {images.length > 0 && rules.galleryLabel ? (
               <>
-                <h2>Foto Rumah</h2>
+                <h2>{rules.galleryLabel}</h2>
                 <div className="gallery-thumbs">
                   {images.map((url, index) => (
                     <a
@@ -99,7 +89,7 @@ export default async function PublicContentDetail({
                 </div>
               ) : null}
 
-              {hasMeasurements(section, item.category) ? (
+              {rules.measurements ? (
                 <>
                   {item.metadata?.panjang_meter ? (
                     <div>

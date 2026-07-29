@@ -47,7 +47,7 @@ export type Hamlet = {
 export type PopulationStatistic = {
   id: string;
   hamlet_id: string | null;
-  statistic_type: "gender" | "education" | "marital_status";
+  statistic_type: "gender" | "education" | "marital_status" | "age";
   category: string;
   total: number;
   period_year: number;
