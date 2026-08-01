@@ -406,7 +406,7 @@ h6 {
 
 .collaboration-logos {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
   align-items: stretch;
 }
@@ -469,7 +469,7 @@ h6 {
 
 @media (max-width: 820px) {
   .collaboration-logos {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
   }
 

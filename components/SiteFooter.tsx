@@ -27,6 +27,12 @@ const collaborationPartners = [
     height: 160,
   },
   {
+    name: "LPPM Universitas Tidar",
+    logo: "/logos/lppm-untidar.jpg",
+    width: 190,
+    height: 160,
+  },
+  {
     name: "Universitas Tidar",
     logo: "/logos/logo-untidar.png",
     width: 180,
