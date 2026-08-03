@@ -44,7 +44,7 @@ export default async function HomePage() {
             <p className="eyebrow light">Website Resmi Pemerintah Desa</p>
             <p className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold my-1"><TypedHero fallback={settings?.village_name || "Website Desa Belum Dikonfigurasi"} /></p>
             {settings?.district ? (
-              <p className="hero-tagline">Kecamatan {settings.district}, {settings.regency}</p>
+              <p className="hero-tagline">Desa {settings.village_name}, Kecamatan {settings.district}, Kabupaten {settings.regency}</p>
             ) : null}
             <p className="hero-copy mb-2">{settings?.welcome_message || "Admin belum memublikasikan identitas dan sambutan desa."}</p>
             <div className="button-row">
