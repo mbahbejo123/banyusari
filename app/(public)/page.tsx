@@ -3,7 +3,7 @@ import EmptyState from "@/components/EmptyState";
 import NewsTicker from "@/components/NewsTicker";
 import TypedHero from "@/components/TypedHero";
 import { getPublicSettings, getPublishedContent, getPublishedHamlets, getPublishedPopulation, getPublishedPosts } from "@/lib/data";
-import { IconMap, IconPhoto, IconClipboardList, IconBuildingStore, IconNews, IconBuildingBridge, IconLeaf, IconPhone } from "@tabler/icons-react";
+import { IconMap, IconPhoto, IconClipboardList, IconBuildingStore, IconNews, IconBuildingBridge, IconLeaf, IconPhone, IconUsers, IconMan, IconWoman } from "@tabler/icons-react";
 
 const shortcuts = [
   { href: "/dusun", icon: IconMap, label: "Peta Dusun" },
@@ -37,7 +37,7 @@ export default async function HomePage() {
   return (
     <main>
       <section className={`hero ${settings?.hero_image_url ? "with-image" : ""}`} style={heroStyle}>
-          <div className="hero-content hero-center">
+          <div className={`hero-content hero-center${settings?.hero_image_url ? " hero-with-overlay" : ""}`}>
             {settings?.logo_url ? (
               <img className="hero-logo" src={settings.logo_url} alt={`Logo ${settings.village_name}`} />
             ) : null}
@@ -77,19 +77,19 @@ export default async function HomePage() {
       <section className="section mt-5" style={{ paddingTop: 0 }}>
         <NewsTicker items={posts.map(p => ({ text: p.title, href: `/berita/${p.slug}` }))} />
       </section>
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="section reveal" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="section-heading"><p className="eyebrow">Potensi Desa</p><h2>Potensi yang dapat dikembangkan</h2></div>
           {potentials.length === 0 ? <EmptyState title="Belum ada potensi yang dipublikasikan" /> : <div className="card-grid">{potentials.slice(0, 3).map((item) => <article className="content-card" key={item.id}>{item.cover_image_url ? <img src={item.cover_image_url} alt={item.title} /> : <div className="image-placeholder">Belum ada gambar</div>}<div className="content-card-body"><span className="tag">{item.category}</span><h2>{item.title}</h2><p>{item.summary}</p><Link className="text-link" href={`/potensi/${item.slug}`}>Lihat detail →</Link></div></article>)}</div>}
         </div>
       </section>
-      <section className="section alt">
+      <section className="section alt reveal">
         <div className="container">
           <div className="section-heading"><p className="eyebrow">Infrastruktur</p><h2>Sarana dan prasarana desa</h2></div>
-          {infrastructures.length === 0 ? <EmptyState title="Belum ada infrastruktur yang dipublikasikan" /> : <div className="compact-grid">{infrastructures.slice(0, 4).map((item) => <article className="simple-card" key={item.id}><span className="tag">{item.category}</span><h3>{item.title}</h3><p>{item.summary}</p><Link className="text-link" href={`/infrastruktur/${item.slug}`}>Lihat detail →</Link></article>)}</div>}
+          {infrastructures.length === 0 ? <EmptyState title="Belum ada infrastruktur yang dipublikasikan" /> : <div className="card-grid">{infrastructures.slice(0, 3).map((item) => <article className="content-card" key={item.id}>{item.cover_image_url ? <img src={item.cover_image_url} alt={item.title} /> : <div className="image-placeholder">Belum ada gambar</div>}<div className="content-card-body"><span className="tag">{item.category}</span><h2>{item.title}</h2><p>{item.summary}</p><Link className="text-link" href={`/infrastruktur/${item.slug}`}>Lihat detail →</Link></div></article>)}</div>}
         </div>
       </section>
-      <section className="section">
+      <section className="section reveal">
         <div className="container">
           <div className="section-heading"><p className="eyebrow">Berita</p><h2>Informasi terbaru dari desa</h2></div>
           {posts.length === 0 ? <EmptyState title="Belum ada berita yang diterbitkan" /> : <div className="card-grid">{posts.map((post) => <article className="content-card" key={post.id}>{post.cover_image_url ? <img src={post.cover_image_url} alt={post.title} /> : <div className="image-placeholder">Belum ada gambar</div>}<div className="content-card-body"><span className="tag">{post.post_type}</span><h2>{post.title}</h2><p>{post.excerpt}</p><Link className="text-link" href={`/berita/${post.slug}`}>Baca berita →</Link></div></article>)}</div>}

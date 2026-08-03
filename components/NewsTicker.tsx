@@ -5,13 +5,15 @@ export default function NewsTicker({ items }: { items: { text: string; href: str
   return (
     <div className="container">
       <div className="ticker">
-        <span className="ticker-label z-10">Sekilas Info</span>
+        <span className="ticker-label">Sekilas Info</span>
         <div className="ticker-track">
-          {[...items, ...items].map((item, i) => (
-            <Link key={i} href={item.href} className="ticker-item">
-              {item.text}
-            </Link>
-          ))}
+          <div className="ticker-inner">
+            {[...items, ...items].map((item, i) => (
+              <Link key={i} href={item.href} className="ticker-item">
+                {item.text}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>

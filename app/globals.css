@@ -95,7 +95,22 @@ h6 { font-size: var(--fs-base); }
 .tag { display: inline-flex; padding: 5px 10px; border-radius: 999px; background: var(--green-100); color: var(--green-800); font-size: var(--fs-sm); font-weight: 700; }
 .text-link { color: var(--green-700); font-weight: 700; }
 .empty-state { text-align: center; padding: 60px 25px; }
+.empty-state-icon { color: #9fc3ae; margin-bottom: 12px; }
 .empty-state p, .muted { color: var(--muted); }
+
+/* Hover cards */
+.content-card, .simple-card { transition: transform .25s ease, box-shadow .25s ease; }
+.content-card:hover, .simple-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(18,61,44,.12); }
+.content-card > img { transition: transform .35s ease; }
+.content-card:hover > img { transform: scale(1.03); }
+
+/* Stat icons */
+.stat-icon { color: var(--green-700); margin-bottom: 8px; }
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.reveal-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 .detail-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 26px; align-items: start; }
 .detail-panel, .detail-sidebar { padding: 28px; }
 .detail-image { width: 100%; max-height: 520px; object-fit: cover; border-radius: 14px; margin-bottom: 28px; }
@@ -218,6 +233,9 @@ dd { margin: 4px 0 0; font-weight: 700; }
 .hero-center { max-width: 800px; text-align: center; display: flex; flex-direction: column; align-items: center; margin-inline: auto; }
 .hero-logo { width: 80px; height: 80px; object-fit: contain; margin-bottom: 16px; border-radius: 20px; background: rgba(255,255,255,.15); padding: 8px; }
 .hero-tagline { margin: 0 0; font-size: var(--fs-md); color: #cfe6d8; }
+.hero.with-image .hero-with-overlay { position: relative; z-index: 1; }
+.hero.with-image .hero-with-overlay::before { content: ""; position: absolute; inset: 0; border-radius: 24px; background: linear-gradient(90deg, rgba(10,40,27,.78), rgba(10,40,27,.35)); z-index: -1; }
+.hero.with-image .hero-with-overlay { padding: 42px 28px; }
 
 /* Shortcut bar */
 .shortcut-bar { position: relative; z-index: 2; margin: 60px 0 20px 0; }
@@ -230,13 +248,14 @@ dd { margin: 4px 0 0; font-weight: 700; }
 @media (max-width: 680px) { .shortcut-grid { grid-template-columns: repeat(3, 1fr); } }
 
 /* News ticker */
-.ticker { display: flex; align-items: center; background: white; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-.ticker-label { flex-shrink: 0; padding: 10px 18px; background: var(--green-800); color: white; font-weight: 700; font-size: var(--fs-base); letter-spacing: .03em; }
-.ticker-track { display: flex; gap: 48px; padding: 10px 18px; overflow: hidden; white-space: nowrap; animation: ticker-scroll 20s linear infinite; }
-.ticker-item { color: var(--muted); font-size: var(--fs-base); transition: color .2s; flex-shrink: 0; }
+.ticker { display: flex; align-items: stretch; background: white; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.ticker-label { flex-shrink: 0; display: flex; align-items: center; padding: 10px 18px; background: var(--green-800); color: white; font-weight: 700; font-size: var(--fs-base); letter-spacing: .03em; z-index: 1; }
+.ticker-track { flex: 1; min-width: 0; overflow: hidden; }
+.ticker-inner { display: flex; width: max-content; white-space: nowrap; animation: ticker-scroll 20s linear infinite; will-change: transform; }
+.ticker-item { display: inline-flex; align-items: center; color: var(--muted); font-size: var(--fs-base); padding: 10px 24px; border-right: 1px solid var(--line); transition: color .2s; }
 .ticker-item:hover { color: var(--green-700); }
 @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-@media (max-width: 680px) { .ticker-label { padding: 10px 12px; font-size: var(--fs-sm); } .ticker-track { animation-duration: 30s; } }
+@media (max-width: 680px) { .ticker-label { padding: 10px 12px; font-size: var(--fs-sm); } .ticker-inner { animation-duration: 30s; } }
 
 /* Bottom mobile nav */
 .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: white; border-top: 1px solid var(--line); padding: 6px 0; box-shadow: 0 -4px 20px rgba(0,0,0,.08); }

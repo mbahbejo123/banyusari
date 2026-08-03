@@ -105,9 +105,9 @@ export default async function SiteFooter() {
                     className="sosmed-link"
                     title="Facebook"
                   >
-
-                    <IconBrandFacebook size={20}/>
-
+                    <div className="flex justify-center items-center w-full h-full">
+                      <IconBrandFacebook size={20} />
+                    </div>
                   </a>
 
                 ) : null
@@ -125,9 +125,9 @@ export default async function SiteFooter() {
                     className="sosmed-link"
                     title="Instagram"
                   >
-
-                    <IconBrandInstagram size={20}/>
-
+                    <div className="flex justify-center items-center w-full h-full">
+                      <IconBrandInstagram size={20}/>
+                    </div>
                   </a>
 
                 ) : null
@@ -145,9 +145,9 @@ export default async function SiteFooter() {
                     className="sosmed-link"
                     title="YouTube"
                   >
-
-                    <IconBrandYoutube size={20}/>
-
+                    <div className="flex justify-center items-center w-full h-full">
+                      <IconBrandYoutube size={20}/>
+                    </div>
                   </a>
 
                 ) : null
@@ -165,9 +165,9 @@ export default async function SiteFooter() {
                     className="sosmed-link"
                     title="WhatsApp"
                   >
-
-                    <IconBrandWhatsapp size={20}/>
-
+                    <div className="flex justify-center items-center w-full h-full">
+                      <IconBrandWhatsapp size={20}/>
+                    </div>
                   </a>
 
                 ) : null

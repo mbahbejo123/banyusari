@@ -17,7 +17,7 @@ const iconSize = 18;
 const navigation: NavItem[] = [
   { href: "/", label: "Beranda", icon: <IconHome size={iconSize} /> },
   {
-    label: "Profil Desa", icon: <IconUser size={iconSize} />,
+    href: "/profil", label: "Profil Desa", icon: <IconUser size={iconSize} />,
     children: [
       { href: "/profil", label: "Profil Desa" },
       { href: "/dusun", label: "Dusun" },
@@ -25,14 +25,14 @@ const navigation: NavItem[] = [
     ],
   },
   {
-    label: "Potensi", icon: <IconLeaf size={iconSize} />,
+    href: "/potensi", label: "Potensi", icon: <IconLeaf size={iconSize} />,
     children: sectionConfig.potential.categories.map((cat) => ({
       href: `/potensi?kategori=${encodeURIComponent(cat)}`,
       label: cat,
     })),
   },
   {
-    label: "Infrastruktur", icon: <IconBuildingBridge size={iconSize} />,
+    href: "/infrastruktur", label: "Infrastruktur", icon: <IconBuildingBridge size={iconSize} />,
     children: sectionConfig.infrastructure.categories.map((cat) => ({
       href: `/infrastruktur?kategori=${encodeURIComponent(cat)}`,
       label: cat,
@@ -46,14 +46,14 @@ const navigation: NavItem[] = [
     })),
   },
   {
-    label: "Pelayanan", icon: <IconClipboardList size={iconSize} />,
+    href: "/pelayanan", label: "Pelayanan", icon: <IconClipboardList size={iconSize} />,
     children: sectionConfig.service.categories.map((cat) => ({
       href: `/pelayanan?kategori=${encodeURIComponent(cat)}`,
       label: cat,
     })),
   },
   {
-    label: "Perumahan", icon: <IconHome2 size={iconSize} />,
+    href: "/perumahan", label: "Perumahan", icon: <IconHome2 size={iconSize} />,
     children: sectionConfig.housing.categories.map((cat) => ({
       href: `/perumahan?kategori=${encodeURIComponent(cat)}`,
       label: cat,
@@ -88,11 +88,19 @@ export function DesktopNav() {
         if (item.children) {
           return (
             <div key={i} className={`nav-parent${active ? " active" : ""}`}>
-              <span className="nav-trigger">
-                <span className="nav-icon">{item.icon}</span>
-                {item.label}
-                <IconChevronDown size={14} className="nav-chevron" />
-              </span>
+              {item.href ? (
+                <Link href={item.href} className="nav-trigger" style={{ fontFamily: "var(--font-inter)" }}>
+                  <span className="nav-icon">{item.icon}</span>
+                  {item.label}
+                  <IconChevronDown size={14} className="nav-chevron" />
+                </Link>
+              ) : (
+                <span className="nav-trigger">
+                  <span className="nav-icon">{item.icon}</span>
+                  {item.label}
+                  <IconChevronDown size={14} className="nav-chevron" />
+                </span>
+              )}
               <div className="nav-dropdown">
                 {item.children.map((child, j) => (
                   <Link key={j} href={child.href} className={`nav-child${childActive(pathname, kategori, child.href) ? " active" : ""}`} style={{ fontFamily: "var(--font-inter)" }}>
